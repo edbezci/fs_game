@@ -8,7 +8,7 @@ To run the game, you need to have Python 3.6 or higher installed on your system.
 
 To install the game and its dependencies, follow these steps:
 
-    Clone the repository: git clone https://github.com/edbezci/FS_Game.git
+    Clone the repository: git clone https://github.com/edbezci/fs_game.git
     Change into the project directory: cd FS_Game
     Install the dependencies using Poetry: poetry install
 
