@@ -1,6 +1,6 @@
 ## Description
 
-FS_Game is a short 2D space game made for the young cousin to spend time. The aim of the game is to avoid the meteors and save the people on board the spaceship.
+FS Game is a short 2D space game made for the young cousin to spend time. The aim of the game is to avoid the meteors and save the people on board the spaceship.
 
 ### Installation
 
