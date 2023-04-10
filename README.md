@@ -28,6 +28,6 @@ This will start the game in fullscreen mode.
     Avoid the meteors
     Save the people on board the spaceship
 
-Screenshot
+### Screenshot 
 
-![FS Game](src/assets/images/fivergame.png)
+![FS Game](src/assets/images/game.png)
