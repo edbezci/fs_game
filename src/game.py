@@ -1,8 +1,9 @@
-import pygame, random, sys
-from pygame.locals import *
 import os
+import random
+import sys
 
-
+import pygame
+from pygame.locals import *
 
 WINDOWWIDTH = 800
 WINDOWHEIGHT = 600
@@ -17,10 +18,10 @@ ADDNEWASTRORATE = 16
 PLAYERMOVERATE = 5
 
 
-
 def terminate():
     pygame.quit()
     sys.exit()
+
 
 def waitForPlayerToPressKey():
     while True:
@@ -28,15 +29,17 @@ def waitForPlayerToPressKey():
             if event.type == QUIT:
                 terminate()
             if event.type == KEYDOWN:
-                if event.key == K_ESCAPE: # pressing escape quits
+                if event.key == K_ESCAPE:  # pressing escape quits
                     terminate()
                 return
 
+
 def playerHasHitAstro(playerRect, astros):
     for a in astros:
-        if playerRect.colliderect(a['rect']):
+        if playerRect.colliderect(a["rect"]):
             return True
     return False
+
 
 def drawText(text, font, surface, x, y):
     textobj = font.render(text, 1, TEXTCOLOR)
@@ -44,27 +47,30 @@ def drawText(text, font, surface, x, y):
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
 
+
 # set up pygame, the window, and the mouse cursor
 pygame.init()
 mainClock = pygame.time.Clock()
-windowSurface = pygame.display.set_mode([WINDOWWIDTH, WINDOWHEIGHT], pygame.FULLSCREEN)
-pygame.display.set_caption('Filling Space')
+windowSurface = pygame.display.set_mode(
+    [WINDOWWIDTH, WINDOWHEIGHT], pygame.FULLSCREEN
+)
+pygame.display.set_caption("Filling Space")
 pygame.mouse.set_visible(False)
 
 # set up paths
-explosion_sound = os.path.abspath("sound/explosion.ogg")
-background_sound = os.path.abspath("sound/background.ogg")
+explosion_sound = os.path.abspath("assets/sound/explosion.ogg")
+background_sound = os.path.abspath("assets/sound/background.ogg")
 
-logo = os.path.abspath("images/logo.png")
-craft = os.path.abspath("images/FS_Craft.png")
-explosion = os.path.abspath("images/explosion.png")
-asteroid = os.path.abspath("images/asteroid.png")
-background_image = os.path.abspath("images/background.png")
+logo = os.path.abspath("assets/images/logo.png")
+craft = os.path.abspath("assets/images/FS_Craft.png")
+explosion = os.path.abspath("assets/images/explosion.png")
+asteroid = os.path.abspath("assets/images/asteroid.png")
+background_image = os.path.abspath("assets/images/background.png")
 
 
 # set up fonts
-font = pygame.font.SysFont('arial', 48)
-font1 = pygame.font.SysFont('arial', 24)
+font = pygame.font.SysFont("arial", 48)
+font1 = pygame.font.SysFont("arial", 24)
 
 # set up sounds
 gameOverSound = pygame.mixer.Sound(explosion_sound)
@@ -72,25 +78,49 @@ pygame.mixer.music.load(background_sound)
 
 # set up images
 logoload = pygame.image.load(logo)
-logoImage = pygame.transform.scale(logoload,(150,150))
+logoImage = pygame.transform.scale(logoload, (150, 150))
 logoRect = logoImage.get_rect()
 plload = pygame.image.load(craft)
 expload = pygame.image.load(explosion)
-explosionImage = pygame.transform.scale(expload,(70,70))
-playerImage = pygame.transform.scale(plload,(80,80))
+explosionImage = pygame.transform.scale(expload, (70, 70))
+playerImage = pygame.transform.scale(plload, (80, 80))
 playerRect = playerImage.get_rect()
 astroImage = pygame.image.load(asteroid)
 bg_image = pygame.image.load(background_image)
-bg = pygame.transform.scale(bg_image, (WINDOWWIDTH,WINDOWHEIGHT))
+bg = pygame.transform.scale(bg_image, (WINDOWWIDTH, WINDOWHEIGHT))
 # show the "Start" screen
 
-logoRect.topleft= (((WINDOWWIDTH/2)-75),(5))
-windowSurface.blit(logoImage,logoRect)
-drawText('Kapitän Erik', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
-drawText('Drücke eine beliebige Taste um zu starten!', font, windowSurface, 15 , (WINDOWHEIGHT / 3) + 50)
-drawText('Spiel für Erik - Vermeide die Meteoriten und rette die Menschen an Bord!', font1, windowSurface, 10, (WINDOWHEIGHT / 3) + 100)
-drawText('Führe Die Menschheit im Universum...Die Menschheit vertraut dir!', font1, windowSurface, 10, (WINDOWHEIGHT / 3) + 130)
-drawText('W= Geradeaus, A=Links, S=rückwärts, D=Recht, Z=Abbremsen, ESC=Quit', font1, windowSurface, 10, (WINDOWHEIGHT / 3) + 180)
+logoRect.topleft = (((WINDOWWIDTH / 2) - 75), (5))
+windowSurface.blit(logoImage, logoRect)
+drawText("Kapitän Erik", font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
+drawText(
+    "Drücke eine beliebige Taste um zu starten!",
+    font,
+    windowSurface,
+    15,
+    (WINDOWHEIGHT / 3) + 50,
+)
+drawText(
+    "Spiel für Erik - Vermeide die Meteoriten und rette die Menschen an Bord!",
+    font1,
+    windowSurface,
+    10,
+    (WINDOWHEIGHT / 3) + 100,
+)
+drawText(
+    "Führe Die Menschheit im Universum...Die Menschheit vertraut dir!",
+    font1,
+    windowSurface,
+    10,
+    (WINDOWHEIGHT / 3) + 130,
+)
+drawText(
+    "W= Geradeaus, A=Links, S=rückwärts, D=Recht, Z=Abbremsen, ESC=Quit",
+    font1,
+    windowSurface,
+    10,
+    (WINDOWHEIGHT / 3) + 180,
+)
 
 pygame.display.update()
 waitForPlayerToPressKey()
@@ -107,53 +137,56 @@ while True:
     astroAddCounter = 0
     pygame.mixer.music.play(-1, 0.0)
 
-    while True: # the game loop runs while the game part is playing
-        score += 1 # increase score
+    while True:  # the game loop runs while the game part is playing
+        score += 1  # increase score
 
         for event in pygame.event.get():
             if event.type == QUIT:
                 terminate()
 
             if event.type == KEYDOWN:
-                if event.key == ord('z'):
+                if event.key == ord("z"):
                     reverseCheat = True
-                if event.key == ord('x'):
+                if event.key == ord("x"):
                     slowCheat = True
-                if event.key == K_LEFT or event.key == ord('a'):
+                if event.key == K_LEFT or event.key == ord("a"):
                     moveRight = False
                     moveLeft = True
-                if event.key == K_RIGHT or event.key == ord('d'):
+                if event.key == K_RIGHT or event.key == ord("d"):
                     moveLeft = False
                     moveRight = True
-                if event.key == K_UP or event.key == ord('w'):
+                if event.key == K_UP or event.key == ord("w"):
                     moveDown = False
                     moveUp = True
-                if event.key == K_DOWN or event.key == ord('s'):
+                if event.key == K_DOWN or event.key == ord("s"):
                     moveUp = False
                     moveDown = True
 
             if event.type == KEYUP:
-                if event.key == ord('z'):
+                if event.key == ord("z"):
                     reverseCheat = False
                     score = 0
-                if event.key == ord('x'):
+                if event.key == ord("x"):
                     slowCheat = False
                     score = 0
                 if event.key == K_ESCAPE:
-                        terminate()
+                    terminate()
 
-                if event.key == K_LEFT or event.key == ord('a'):
+                if event.key == K_LEFT or event.key == ord("a"):
                     moveLeft = False
-                if event.key == K_RIGHT or event.key == ord('d'):
+                if event.key == K_RIGHT or event.key == ord("d"):
                     moveRight = False
-                if event.key == K_UP or event.key == ord('w'):
+                if event.key == K_UP or event.key == ord("w"):
                     moveUp = False
-                if event.key == K_DOWN or event.key == ord('s'):
+                if event.key == K_DOWN or event.key == ord("s"):
                     moveDown = False
 
             if event.type == MOUSEMOTION:
                 # If the mouse moves, move the player where the cursor is.
-                playerRect.move_ip(event.pos[0] - playerRect.centerx, event.pos[1] - playerRect.centery)
+                playerRect.move_ip(
+                    event.pos[0] - playerRect.centerx,
+                    event.pos[1] - playerRect.centery,
+                )
 
         # Add new ASTROs at the top of the screen, if needed.
         if not reverseCheat and not slowCheat:
@@ -161,10 +194,18 @@ while True:
         if astroAddCounter == ADDNEWASTRORATE:
             astroAddCounter = 0
             astroSize = random.randint(ASTROMINSIZE, ASTROMAXSIZE)
-            newAstro = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH-astroSize), 0 - astroSize, astroSize, astroSize),
-                        'speed': random.randint(ASTROMINSPEED, ASTROMAXSPEED),
-                        'surface':pygame.transform.scale(astroImage, (astroSize, astroSize)),
-                        }
+            newAstro = {
+                "rect": pygame.Rect(
+                    random.randint(0, WINDOWWIDTH - astroSize),
+                    0 - astroSize,
+                    astroSize,
+                    astroSize,
+                ),
+                "speed": random.randint(ASTROMINSPEED, ASTROMAXSPEED),
+                "surface": pygame.transform.scale(
+                    astroImage, (astroSize, astroSize)
+                ),
+            }
 
             astros.append(newAstro)
 
@@ -184,31 +225,31 @@ while True:
         # Move the ASTROs down.
         for a in astros:
             if not reverseCheat and not slowCheat:
-                a['rect'].move_ip(0, a['speed'])
+                a["rect"].move_ip(0, a["speed"])
             elif reverseCheat:
-                a['rect'].move_ip(0, -5)
+                a["rect"].move_ip(0, -5)
             elif slowCheat:
-                a['rect'].move_ip(0, 1)
+                a["rect"].move_ip(0, 1)
 
-         # Delete ASTROs that have fallen past the bottom.
+        # Delete ASTROs that have fallen past the bottom.
         for a in astros[:]:
-            if a['rect'].top > WINDOWHEIGHT:
+            if a["rect"].top > WINDOWHEIGHT:
                 astros.remove(a)
 
         # Draw the game world on the window.
         windowSurface.fill(BACKGROUNDCOLOR)
-        windowSurface.blit(bg,(0,0))
+        windowSurface.blit(bg, (0, 0))
 
         # Draw the score and top score.
-        drawText('Score: %s' % (score), font, windowSurface, 10, 0)
-        drawText('Top Score: %s' % (topScore), font, windowSurface, 10, 40)
+        drawText("Score: %s" % (score), font, windowSurface, 10, 0)
+        drawText("Top Score: %s" % (topScore), font, windowSurface, 10, 40)
 
         # Draw the player's rectangle
         windowSurface.blit(playerImage, playerRect)
 
         # Draw each ASTRO
         for a in astros:
-            windowSurface.blit(a['surface'], a['rect'])
+            windowSurface.blit(a["surface"], a["rect"])
 
         pygame.display.update()
 
@@ -216,7 +257,7 @@ while True:
         if playerHasHitAstro(playerRect, astros):
             windowSurface.blit(explosionImage, playerRect)
             if score > topScore:
-                topScore = score # set new top score
+                topScore = score  # set new top score
             break
 
         mainClock.tick(FPS)
@@ -225,8 +266,20 @@ while True:
     pygame.mixer.music.stop()
     gameOverSound.play()
 
-    drawText('GAME OVER!', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
-    drawText('Drücke eine beliebige Taste um noch einmal zu beginnen', font1, windowSurface, WINDOWWIDTH/5, (WINDOWHEIGHT / 3) + 50)
+    drawText(
+        "GAME OVER!",
+        font,
+        windowSurface,
+        (WINDOWWIDTH / 3),
+        (WINDOWHEIGHT / 3),
+    )
+    drawText(
+        "Drücke eine beliebige Taste um noch einmal zu beginnen",
+        font1,
+        windowSurface,
+        WINDOWWIDTH / 5,
+        (WINDOWHEIGHT / 3) + 50,
+    )
     pygame.display.update()
     waitForPlayerToPressKey()
 
